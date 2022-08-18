@@ -11,8 +11,10 @@ import za.co.sikabopha.zapper.domain.model.News;
 import za.co.sikabopha.zapper.domain.repository.NewsRepository;
 
 public class NewsRepositoryImpl implements NewsRepository {
-    @Inject
-    NewsApi api;
+    private NewsApi api;
+    public NewsRepositoryImpl(NewsApi api){
+        this.api = api;
+    }
 
     @Override
     public List<News> getNews() {

@@ -14,19 +14,25 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import za.co.sikabopha.zapper.databinding.ActivityMainBinding;
+import za.co.sikabopha.zapper.presentation.NewsViewModel;
 
 import android.view.Menu;
 import android.view.MenuItem;
+
+import javax.inject.Inject;
 
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
 
+    @Inject
+    NewsViewModel newsViewModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        newsViewModel.
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
