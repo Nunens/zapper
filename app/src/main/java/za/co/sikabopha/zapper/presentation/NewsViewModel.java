@@ -3,6 +3,7 @@ package za.co.sikabopha.zapper.presentation;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -16,9 +17,9 @@ public class NewsViewModel extends ViewModel {
     @Inject
     NewsRepository repository;
 
-    MutableLiveData<List<News>> newsList = new MutableLiveData<List<News>>();
+    List<News> newsList = new ArrayList<>();
 
     public void getNews(){
-        newsList.setValue(repository.getNews());
+        newsList.addAll(repository.getNews());
     }
 }
