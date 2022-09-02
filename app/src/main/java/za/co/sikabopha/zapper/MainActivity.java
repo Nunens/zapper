@@ -1,38 +1,38 @@
 package za.co.sikabopha.zapper;
 
 import android.os.Bundle;
-
-import com.google.android.material.snackbar.Snackbar;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.view.View;
-
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import za.co.sikabopha.zapper.databinding.ActivityMainBinding;
+import za.co.sikabopha.zapper.domain.model.News;
 import za.co.sikabopha.zapper.presentation.NewsViewModel;
+import za.co.sikabopha.zapper.presentation.contract.NewsContract;
 
-import android.view.Menu;
-import android.view.MenuItem;
-
-import javax.inject.Inject;
-
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NewsContract.MainView {
 
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
 
-    @Inject
-    NewsViewModel newsViewModel;
+    NewsViewModel newsViewModel = new ViewModelProvider(this).get(NewsViewModel.class);
+    List<News> newsList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        newsViewModel.getNews();
+        newsViewModel.getNews().observe(this, newsList -> {
+            this.newsList = newsList;
+        });
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -41,14 +41,6 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-
-        binding.fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
     }
 
     @Override
@@ -72,5 +64,10 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         return NavigationUI.navigateUp(navController, appBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    @Override
+    public void setNewsList(List<News> newsList) {
+
     }
 }

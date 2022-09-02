@@ -1,10 +1,14 @@
 package za.co.sikabopha.zapper.presentation;
 
+import android.database.Observable;
+
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
@@ -17,9 +21,10 @@ public class NewsViewModel extends ViewModel {
     @Inject
     NewsRepository repository;
 
-    List<News> newsList = new ArrayList<>();
+    MutableLiveData<List<News>> newsList = new MutableLiveData<>();
 
-    public void getNews(){
-        newsList.addAll(repository.getNews());
+    public LiveData<List<News>> getNews(){
+        newsList.setValue(repository.getNews());
+        return newsList;
     }
 }
